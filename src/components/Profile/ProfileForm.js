@@ -1,10 +1,12 @@
 import classes from "./ProfileForm.module.css";
 import { useRef, useContext } from "react";
 import AuthContext from "../../store/auth-context";
+import { useHistory } from "react-router-dom";
 
 const ProfileForm = () => {
   const newPasswordInputRef = new useRef();
   const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const ProfileForm = () => {
     )
     .then((res) => {
       if (res.ok) {
-        return res.json()
+        history.replace('/')
       } else {
         return res.json().then((data) => {
           let errorMessage = "Changing Password Failed";
@@ -35,10 +37,6 @@ const ProfileForm = () => {
         });
       }
     })
-    // .then((data) => {
-    //   // authCtx.login(data.idToken);
-    //   console.log(data);
-    // })
     .catch((err) => {
       alert(err.message);
     });
